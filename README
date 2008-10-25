@@ -1,7 +1,8 @@
 The Integration API is an Open Source project with the goal of making
 it easy to integrate an existing Rails application with any number of
-off-the-shelf app, such as Wordpress, Beast, PubBB, or Vanilla.  The
-focus is enabling transparent, single sign-on betwen the applications.
+off-the-shelf apps, such as Wordpress, Beast, PubBB, or Vanilla.  The
+focus is on enabling transparent single sign-on between the
+applications.
 
 
 The basic idea 
@@ -27,7 +28,7 @@ in PHP, Rails, or whatever development environment in which the
 * Customize the sign-in and sign-out links to point to those in your
   Rails app.
 
-* Customize the function that checks if a user is logged in to do the
+* Customize the function that checks if a user is signed in to do the
   following:
 
   1. Get the Rails cookie name via the API.
