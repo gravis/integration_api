@@ -1,12 +1,14 @@
 The Integration API is an Open Source project with the goal of making
-it easy to integrate an existing Rails application with any
-off-the-shelf app, such as Wordpress, Beast, PubBB, or Vanilla.
+it easy to integrate an existing Rails application with any number of
+off-the-shelf app, such as Wordpress, Beast, PubBB, or Vanilla.  The
+focus is enabling transparent, single sign-on betwen the applications.
+
 
 The basic idea 
 -------------- 
 
 The key idea is to add a web services API into the existing Rails
-application, allowing one or more 3rd party apps to get the
+application, which allows one or more 3rd party apps to get the
 information they need, when they need it.  The API should be
 configurable enough and general enough that it can be added to any
 Rails app without modification. The Rails app stays in control of all
