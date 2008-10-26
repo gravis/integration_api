@@ -25,10 +25,11 @@ class IntegrationApiController < ApplicationController
   #
   def cookie_name
     name = ActionController::Base.cached_session_options[0][:session_key]
+    data = {'cookie name' => name}
 
     respond_to do |format|
-      format.json { render :json => name.to_json }
-      format.text { render :text => name.to_yaml }
+      format.json { render :json => data.to_json }
+      format.text { render :text => data.to_yaml }
     end
   end
 
