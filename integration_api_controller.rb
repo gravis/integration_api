@@ -1,5 +1,9 @@
+#
+# Licensed under the Open Source GNU public license.
+# Copyright (C) 2008 Robb Shecter, greenfabric.com
+#
 class IntegrationApiController < ApplicationController
-  before_filter :security_check, :only => [:user, :cookie_name]
+  before_filter :security_check, :only => [:user, :config_info]
 
   # For security reasons, a vague error message
   # is given when not in debug mode.
@@ -21,11 +25,13 @@ class IntegrationApiController < ApplicationController
   end
 
   #
-  # Return the name of the cookie containing the Rails session key.
+  # Return the configuration info for this server.
   #
-  def cookie_name
-    name = ActionController::Base.cached_session_options[0][:session_key]
-    data = {'cookie name' => name}
+  def config_info
+    # First add the cookie name to the constants.
+    cookie_name = ActionController::Base.cached_session_options[0][:session_key]
+    data = INTEGRATION_API_CONFIG.dup
+    data[:cookie_name] = cookie_name
 
     respond_to do |format|
       format.json { render :json => data.to_json }

@@ -1,8 +1,13 @@
-The Integration API is an Open Source project with the goal of making
-it easy to integrate an existing Rails application with any number of
-off-the-shelf apps, such as Wordpress, Beast, PunBB, or Vanilla.  The
-focus is on enabling transparent single sign-on between the
-applications.
+The Integration_API enables single sign-on between an existing Rails
+application and any number of instances of other web applications.
+The Wordpress plugin is completed, and collaborators are wanted for
+plugins for other apps such as Beast, PunBB, or Vanilla.
+
+The most current info about available plugin/adapters is available on
+the Integration_API home page: 
+
+  http://greenfabric.com/page/integration_api_home_page
+
 
 
 The basic idea 
@@ -84,6 +89,10 @@ true.
 INTEGRATION_API_DEBUG               = false
 INTEGRATION_API_SESSION_USER_ID_KEY = :userid
 INTEGRATION_API_SESSION_ID_PARAM    = :id
+INTEGRATION_API_CONFIG = {
+  :login_url  => 'http://devbox:3000/page/sign_in',
+  :logout_url => 'http://devbox:3000/consumer/logout'
+}
 
 # For security:
 INTEGRATION_API_REQUIRED_PORT       = 3000        # Set to nil to disable
@@ -99,8 +108,8 @@ and tailoring the constants, you can test the API like this:
 
 * Getting the cookie name used by your app:
 
-$ curl http://localhost:3000/integration_api/cookie_name
-"_gf_session"
+$ curl http://localhost:3000/integration_api/config_info
+{"login_url":"http:\/\/devbox:3000\/page\/sign_in","logout_url":"http:\/\/devbox:3000\/consumer\/logout","cookie_name":"_gf_session"}
 
 
 * Getting the user info for a signed-in user, based on the session id
@@ -114,16 +123,21 @@ $ curl http://localhost:3000/integration_api/user/390f55cfd1ad5a911833a7683d2c37
 
 * Attempting to use the API from an unauthorized host (Debug mode enabled):
 
-$ curl http://devbox:3000/integration_api/cookie_name
+$ curl http://devbox:3000/integration_api/config_info
 Bad host: localhost is required, but got devbox
 
 
 * Attempting to use the API from an unauthorized host (Debug mode disabled):
 
-$ curl http://devbox:3000/integration_api/cookie_name
+$ curl http://devbox:3000/integration_api/config_info
 HTTP 501 -- Server error.
 
 --
 Robb Shecter
 robb@greenfabric.com
 http://greenfabric.com/robb
+
+This document, and the entire Integration_API project has been
+released under the GNU public license.
+
+Copyright (C) 2008, Robb Shecter, greenfabric.com
