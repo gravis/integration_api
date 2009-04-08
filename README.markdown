@@ -122,33 +122,29 @@ After copying the controller file to your app/controllers directory
 and tailoring the constants, you can test the API like this:
 
 
-* Getting the cookie name used by your app:
+### Getting the cookie name used by your app:
 
-$
-    curl http://localhost:3000/integration_api/config_info
-    {"login_url":"http:\/\/devbox:3000\/page\/sign_in","logout_url":"http:\/\/devbox:3000\/consumer\/logout","cookie_name":"_gf_session"}  
+    $ curl http://localhost:3000/integration_api/config_info
+    {"login_url":"http:\/\/devbox:3000\/page\/sign_in","logout_url":"http:\/\/devbox:3000\/consumer\/logout","cookie_name":"_gf_session"}
 
-* Getting the user info for a signed-in user, based on the session id
+###  Getting the user info for a signed-in user, based on the session id
 stored in a rails cookie. (This is what my system shows -- I use
 OpenID for authentication.  You'll see different attributes,
 obviously)
 
-$
-    curl http://localhost:3000/integration_api/user/390f55cfd1ad5a911833a7683d2c3793
+    $ curl http://localhost:3000/integration_api/user/390f55cfd1ad5a911833a7683d2c3793
     {"user": {"name":"Robb Shecter","updated_at":"2008-09-02T11:57:51-07:00","nickname":"Robb","id":2,"pref_announce_list":false,"homepage":null,"openid":"http:\/\/greenfabric.com\/robb\/","email":"robb.shecter@gmail.com","created_at":"2008-06-29T01:23:01-07:00"}}
 
 
-* Attempting to use the API from an unauthorized host (Debug mode enabled):
+###  Attempting to use the API from an unauthorized host (Debug mode enabled):
 
-$ 
-    curl http://devbox:3000/integration_api/config_info
+    $ curl http://devbox:3000/integration_api/config_info
     Bad host: localhost is required, but got devbox
 
 
-* Attempting to use the API from an unauthorized host (Debug mode disabled):
+###  Attempting to use the API from an unauthorized host (Debug mode disabled):
 
-$
-    curl http://devbox:3000/integration_api/config_info
+    $ curl http://devbox:3000/integration_api/config_info
     HTTP 501 -- Server error.
 
 --      
