@@ -2,7 +2,7 @@
 # Licensed under the Open Source GNU public license.
 # Copyright (C) 2008 Robb Shecter, greenfabric.com
 #
-class IntegrationApiController < ApplicationController
+class IntegrationApiController < ActionController::Base
   before_filter :security_check, :only => [:user, :config_info]
 
   # For security reasons, a vague error message
