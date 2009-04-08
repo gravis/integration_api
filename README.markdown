@@ -1,4 +1,6 @@
-h1. Integration_API
+Integration_API
+====================
+
 
 The Integration_API enables single sign-on between an existing Rails
 application and any number of instances of other web applications.
@@ -8,9 +10,12 @@ plugins for other apps such as Beast, PunBB, or Vanilla.
 The most current info about available plugin/adapters is available on
 the Integration_API home page: 
 
-  "http://greenfabric.com/page/integration_api_home_page":http://greenfabric.com/page/integration_api_home_page
+[http://greenfabric.com/page/integration_api_home_page](http://greenfabric.com/page/integration_api_home_page)
 
-h2. The basic idea 
+
+
+The basic idea 
+-------------- 
 
 The key idea is to add a web services API into the existing Rails
 application, which allows one or more 3rd party apps to get the
@@ -55,8 +60,21 @@ up in mature, well-refactored 3rd-party apps.  For example, the LDAP
 plugin for Wordpress would make a great starting point for an
 Integration_API Wordpress plugin.
 
+Installation
+------------
 
-h2. Assumptions
+Like any other rails plugin :
+
+    ./script/plugin install git@github.com:gravis/integration_api.git
+    
+or if you want to use git submodules :
+
+    git submodule add git@github.com:gravis/integration_api.git vendor/plugins/integration_api
+    git submodule init
+    git submodule update
+
+Assumptions
+-----------
 
 In order to use this, you should have a working Rails app that
 completely manages its authentication and users.  It should keep track
@@ -64,7 +82,8 @@ of whether a user is signed in by placing the id of a User instance
 into the session.
 
 
-h2. Future plans
+Future plans
+------------
 
 * Make the library more flexible by supporting other user class names,
   etc.
@@ -73,29 +92,31 @@ h2. Future plans
   API.
 
 
-h2. Required constants / configuration settings
+Required constants / configuration settings
+-------------------------------------------
 
-Add these statements to your config/environments/development.rb and
-config/environments/production.rb.  You'll mostly likely need to
-change the ...USER_ID_KEY to the key that you use to store your user
+Add these statements to your `config/environments/development.rb` and
+`config/environments/production.rb`.  You'll mostly likely need to
+change the `USER_ID_KEY` to the key that you use to store your user
 id in the session.  For development, set the ...DEBUG variable to
 true.
 
-  # Constants for the Integration API
-  INTEGRATION_API_DEBUG               = false
-  INTEGRATION_API_SESSION_USER_ID_KEY = :userid
-  INTEGRATION_API_SESSION_ID_PARAM    = :id
-  INTEGRATION_API_CONFIG = {
-    :login_url  => 'http://devbox:3000/page/sign_in',
-    :logout_url => 'http://devbox:3000/consumer/logout'
-  }
+    # Constants for the Integration API
+    INTEGRATION_API_DEBUG               = false
+    INTEGRATION_API_SESSION_USER_ID_KEY = :userid
+    INTEGRATION_API_SESSION_ID_PARAM    = :id
+    INTEGRATION_API_CONFIG = {
+      :login_url  => 'http://devbox:3000/page/sign_in',
+      :logout_url => 'http://devbox:3000/consumer/logout'
+    }
 
-  # For security:
-  INTEGRATION_API_REQUIRED_PORT       = 3000        # Set to nil to disable
-  INTEGRATION_API_REQUIRED_HOST       = "localhost" # Set to nil to disable
+    # For security:
+    INTEGRATION_API_REQUIRED_PORT       = 3000        # Set to nil to disable
+    INTEGRATION_API_REQUIRED_HOST       = "localhost" # Set to nil to disable       
 
 
-h2. Testing the JSON API
+Testing the JSON API
+--------------------
 
 After copying the controller file to your app/controllers directory
 and tailoring the constants, you can test the API like this:
@@ -103,37 +124,40 @@ and tailoring the constants, you can test the API like this:
 
 * Getting the cookie name used by your app:
 
-  $ curl http://localhost:3000/integration_api/config_info
-  {"login_url":"http:\/\/devbox:3000\/page\/sign_in","logout_url":"http:\/\/devbox:3000\/consumer\/logout","cookie_name":"_gf_session"}
-
+$
+    curl http://localhost:3000/integration_api/config_info
+    {"login_url":"http:\/\/devbox:3000\/page\/sign_in","logout_url":"http:\/\/devbox:3000\/consumer\/logout","cookie_name":"_gf_session"}  
 
 * Getting the user info for a signed-in user, based on the session id
 stored in a rails cookie. (This is what my system shows -- I use
 OpenID for authentication.  You'll see different attributes,
-obviously):
+obviously)
 
-  $ curl http://localhost:3000/integration_api/user/390f55cfd1ad5a911833a7683d2c3793
-  {"user": {"name":"Robb Shecter","updated_at":"2008-09-02T11:57:51-07:00","nickname":"Robb","id":2,"pref_announce_list":false,"homepage":null,"openid":"http:\/\/greenfabric.com\/robb\/","email":"robb.shecter@gmail.com","created_at":"2008-06-29T01:23:01-07:00"}}
+$
+    curl http://localhost:3000/integration_api/user/390f55cfd1ad5a911833a7683d2c3793
+    {"user": {"name":"Robb Shecter","updated_at":"2008-09-02T11:57:51-07:00","nickname":"Robb","id":2,"pref_announce_list":false,"homepage":null,"openid":"http:\/\/greenfabric.com\/robb\/","email":"robb.shecter@gmail.com","created_at":"2008-06-29T01:23:01-07:00"}}
 
 
 * Attempting to use the API from an unauthorized host (Debug mode enabled):
 
-  $ curl http://devbox:3000/integration_api/config_info
-  Bad host: localhost is required, but got devbox
+$ 
+    curl http://devbox:3000/integration_api/config_info
+    Bad host: localhost is required, but got devbox
 
 
 * Attempting to use the API from an unauthorized host (Debug mode disabled):
 
-  $ curl http://devbox:3000/integration_api/config_info
-  HTTP 501 -- Server error.
+$
+    curl http://devbox:3000/integration_api/config_info
+    HTTP 501 -- Server error.
 
---
+--      
 
 Robb Shecter
 robb@greenfabric.com
-"http://greenfabric.com/robb":http://greenfabric.com/robb
+http://greenfabric.com/robb
 
 This document, and the entire Integration_API project has been
 released under the GNU public license.
 
-Copyright (C) 2008-2009, Robb Shecter, greenfabric.com
+Copyright (C) 2008, Robb Shecter, greenfabric.com
