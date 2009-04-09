@@ -73,20 +73,29 @@ class IntegrationApiController < ActionController::Base
   #   restoring-rails-session-data-when-cookies-arent-available
   #
   def restore_session_user(session_id, user_id_session_key)
-    session_obj = CGI::Session::ActiveRecordStore::Session.find_by_session_id(session_id)
-    if session_obj.nil?
-      # Session not found.
-      return nil
-    end
+    # Check if we're using cookie session store instead
+    if ActionController::Base.session_store == ActionController::Session::CookieStore
+      sess_obj = Marshal.load( Base64.decode64( session_id ) )
+      user = User.find( sess_obj[:user_id] ) 
+    else  
+      # not using the cookie session store, it might be the old ActiveRecordStore (no more available in rails >= 2.3) :
+      # TODO : test against other stores
+      session_obj = CGI::Session::ActiveRecordStore::Session.find_by_session_id(session_id)
+          if session_obj.nil?
+            # Session not found.
+            return nil
+          end
+        
+          # Session found; user may or may not be logged in,
+          user_id = session_obj.data[user_id_session_key]
+      if user_id.nil?
+        # No user in the session -- user not logged in.
+        return nil
+      end
     
-    # Session found; user may or may not be logged in,
-    user_id = session_obj.data[user_id_session_key]
-    if user_id.nil?
-      # No user in the session -- user not logged in.
-      return nil
+      user = User.find(user_id)  
     end
-
-    return User.find(user_id)  
+    return user
   end  
 
 end
