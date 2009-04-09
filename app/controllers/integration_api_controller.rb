@@ -74,7 +74,7 @@ class IntegrationApiController < ActionController::Base
   #
   def restore_session_user(session_id, user_id_session_key)
     # Check if we're using cookie session store instead
-    if ActionController::Base.session_store == ActionController::Session::CookieStore
+    if ActionController::Base.session_store == CGI::Session::CookieStore
       sess_obj = Marshal.load( Base64.decode64( session_id ) )
       user = User.find( sess_obj[:user_id] ) 
     else  
