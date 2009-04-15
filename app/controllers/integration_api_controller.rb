@@ -29,7 +29,7 @@ class IntegrationApiController < ActionController::Base
   #
   def config_info
     # First add the cookie name to the constants.
-    cookie_name = ActionController::Base.cached_session_options[0][:session_key]
+    cookie_name = ActionController::Base.session_options[:session_key]
     data = INTEGRATION_API_CONFIG.dup
     data[:cookie_name] = cookie_name
 
